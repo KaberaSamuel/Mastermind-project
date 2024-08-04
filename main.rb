@@ -1,10 +1,10 @@
-puts ""
+puts "Game Starting ...\n"
 
 class Mastermind
   attr_accessor :correct, :half_correct,
   :wrong
   
-  @@hidden_number = "123456"
+  @@hidden_number = "12335"
   @@remaining_moves = 8
   @@is_playing = true
   
@@ -20,7 +20,7 @@ class Mastermind
     self.correct = 0
     self.half_correct = 0
     self.wrong = 0
-    @@is_playing = @@hidden_number.length == @correct
+    @@is_playing = @@hidden_number.length == correct
   end
   
   def analyze_input(user_input)
@@ -28,45 +28,24 @@ class Mastermind
     given_characters = user_input.split('')
     new_array = Array.new
 
-    p hidden_characters
-    p given_characters
-
-    puts "-------------------------------"
     hidden_characters.each_with_index do |char,index|
       if hidden_characters[index] == given_characters[index]
-        hidden_characters[index] = nil
-        new_array.push("Correct")
+        new_array.push("Correct")   
+        self.correct += 1
+        hidden_characters[index] = given_characters[index] = "taken"
         
-      elsif !(hidden_characters.include?(char))
-        hidden_characters[index] = nil
+      elsif !(hidden_characters.include?(given_characters[index])) 
+        self.wrong += 1
         new_array.push("Wrong")
         
       else  
-        hidden_characters[index] = nil
+        self.half_correct += 1
         new_array.push("Half correct")
       end
-      given_characters[index] = nil
-      p hidden_characters
     end
-
-    puts "-------------------------------"
-
-    puts ""
-    puts "given characters"
-    p given_characters
-
-    puts ""
-    puts "hidden characters"
-    p hidden_characters
-
-    puts ""
-    puts "new array"
-    p new_array
-
   end
 end
 
 player = Mastermind.new
-player.analyze_input("111111")
 
-puts ""
+puts "Game closing ...\n"
