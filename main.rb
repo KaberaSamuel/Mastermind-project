@@ -5,22 +5,16 @@ class Mastermind
   :wrong
   
   @@hidden_number = "12335"
-  @@remaining_moves = 8
-  @@is_playing = true
+  @@remaining_moves = 5
   
   def self.hidden_number
     @@hidden_number
-  end
-  
-  def self.remaining_moves
-    @@remaining_moves
   end
   
   def initialize
     self.correct = 0
     self.half_correct = 0
     self.wrong = 0
-    @@is_playing = @@hidden_number.length == correct
   end
   
   def analyze_input(user_input)
@@ -43,9 +37,28 @@ class Mastermind
         new_array.push("Half correct")
       end
     end
+
+    
+    p new_array
+    new_array
   end
 end
 
-player = Mastermind.new
+is_playing = true
+remaining_moves = 5
 
-puts "Game closing ...\n"
+while is_playing
+  player = Mastermind.new
+  puts "\n  Remaining moves: #{remaining_moves}"
+  puts "  Choose your five digits number"
+  input = gets.chomp
+  player.analyze_input(input)
+  remaining_moves -= 1
+  is_playing = false if (player.correct == Mastermind.hidden_number.length) || (remaining_moves <= 0)
+end
+
+terminating_message = remaining_moves <= 0 ? "\n  Sorry you ran out of moves 😔" : "\n  Congrats you've guessed the hidden number 🎉🎉🎉\n  The hidden number was #{Mastermind.hidden_number}"
+
+puts terminating_message
+
+puts "\nGame closing ...\n"
